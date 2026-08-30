@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Office Chaos Privacy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbf6ea;
+    --paper: #fffdf7;
+    --ink: #211d16;
+    --ink-soft: #5b5647;
+    --ink-faint: #8c866f;
+    --rule: #e4dcc4;
+    --accent: #c77d00;
+    --accent-bg: #fff1cf;
+    --accent-ink: #6b4400;
+    --tie: #b53a24;
+    --link: #9c5a00;
+    --focus: #c77d00;
+    --shadow: rgba(60, 45, 10, 0.08);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17140f;
+      --paper: #1e1a13;
+      --ink: #f1ece0;
+      --ink-soft: #c9c1ab;
+      --ink-faint: #8f8873;
+      --rule: #3a3325;
+      --accent: #ffb703;
+      --accent-bg: #332705;
+      --accent-ink: #ffcf5c;
+      --tie: #ff8666;
+      --link: #ffcf5c;
+      --focus: #ffb703;
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #17140f;
+    --paper: #1e1a13;
+    --ink: #f1ece0;
+    --ink-soft: #c9c1ab;
+    --ink-faint: #8f8873;
+    --rule: #3a3325;
+    --accent: #ffb703;
+    --accent-bg: #332705;
+    --accent-ink: #ffcf5c;
+    --tie: #ff8666;
+    --link: #ffcf5c;
+    --focus: #ffb703;
+    --shadow: rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  header.masthead {
+    padding: 56px 0 28px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 40px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Space Mono", ui-monospace, monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    background: var(--accent-bg);
+    padding: 5px 10px 5px 8px;
+    border-radius: 4px;
+  }
+
+  .eyebrow .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--tie);
+    display: inline-block;
+  }
+
+  h1.title {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-optical-sizing: auto;
+    font-size: clamp(2.1rem, 5vw, 2.9rem);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    margin: 18px 0 10px;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+
+  .meta {
+    font-family: "Space Mono", ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--ink-faint);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin-top: 4px;
+  }
+
+  .meta strong { color: var(--ink-soft); font-weight: 700; }
+
+  nav.toc {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 32px 0 48px;
+    box-shadow: 0 1px 2px var(--shadow);
+  }
+
+  nav.toc p {
+    margin: 0 0 10px;
+    font-family: "Space Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  nav.toc ol {
+    margin: 0;
+    padding-left: 1.25em;
+    columns: 2;
+    column-gap: 28px;
+    font-size: 14.5px;
+  }
+
+  nav.toc li { margin-bottom: 6px; break-inside: avoid; }
+  nav.toc a { color: var(--ink-soft); text-decoration: none; }
+  nav.toc a:hover { color: var(--link); text-decoration: underline; }
+
+  section.clause {
+    padding-top: 6px;
+    margin-bottom: 44px;
+    scroll-margin-top: 24px;
+  }
+
+  h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 1.42rem;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 0 16px;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  h2 .num {
+    font-family: "Space Mono", ui-monospace, monospace;
+    font-size: 0.62em;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  h3 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin: 24px 0 8px;
+    color: var(--ink);
+  }
+
+  p { margin: 0 0 14px; max-width: 66ch; color: var(--ink-soft); }
+  section.clause > p:first-of-type { color: var(--ink); }
+
+  ul, ol.plain { margin: 0 0 14px; padding-left: 1.4em; color: var(--ink-soft); }
+  li { margin-bottom: 7px; max-width: 62ch; }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 16px 0 20px;
+    box-shadow: 0 1px 2px var(--shadow);
+  }
+
+  .card h3 { margin-top: 0; font-size: 1rem; }
+  .card p:last-child { margin-bottom: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 20px;
+    font-size: 15px;
+  }
+
+  caption {
+    text-align: left;
+    font-family: "Space Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  th {
+    font-family: "Space Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 700;
+  }
+
+  td { color: var(--ink-soft); }
+  td:first-child { color: var(--ink); font-weight: 600; white-space: nowrap; }
+
+  .table-scroll { overflow-x: auto; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 20px; }
+  .pill {
+    font-family: "Space Mono", ui-monospace, monospace;
+    font-size: 12px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    background: var(--paper);
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-size: 13.5px;
+    color: var(--ink-faint);
+  }
+
+  footer a { color: var(--ink-faint); }
+
+  @media (max-width: 560px) {
+    nav.toc ol { columns: 1; }
+    header.masthead { padding-top: 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <span class="eyebrow"><span class="dot"></span>Office Chaos · Legal</span>
+    <h1 class="title">Privacy Policy</h1>
+    <div class="meta">
+      <span><strong>Effective</strong> August 22, 2026</span>
+      <span><strong>Applies to</strong> the Office Chaos Android app</span>
+      <span><strong>Developer</strong> Mazen Afaneh</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Table of contents">
+    <p>On this page</p>
+    <ol>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#collect">Information we collect</a></li>
+      <li><a href="#third-party">Third-party services</a></li>
+      <li><a href="#use">How we use information</a></li>
+      <li><a href="#choices">Your choices</a></li>
+      <li><a href="#retention">Data retention &amp; security</a></li>
+      <li><a href="#children">Children's privacy</a></li>
+      <li><a href="#changes">Changes to this policy</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ol>
+  </nav>
+
+  <section class="clause" id="overview">
+    <h2><span class="num">01</span>Overview</h2>
+    <p>Office Chaos is a simple arcade game: hold to rise, release to fall, and dodge your way through the office. This policy explains what little data the app touches, why, and who it passes through — Google's ad and backend services, and nothing else. There's no account system, no email collection, and no access to your contacts, photos, or files.</p>
+  </section>
+
+  <section class="clause" id="collect">
+    <h2><span class="num">02</span>Information we collect</h2>
+    <p>The app collects two narrow categories of information, both tied to gameplay rather than to you personally.</p>
+
+    <div class="card">
+      <h3>Leaderboard entries</h3>
+      <p>If you choose to save a score, you're asked to enter a nickname (up to 14 characters, chosen by you — a real name isn't required or requested). That nickname, your score, and a server timestamp are stored in the game's Firebase/Firestore database and shown publicly on the in-game leaderboard. Your nickname is also saved on your device so you aren't asked for it again next time you play.</p>
+    </div>
+
+    <div class="card">
+      <h3>Advertising data</h3>
+      <p>Office Chaos shows optional rewarded ads (to continue a run after a game over) and occasional interstitial ads, served through Google AdMob. AdMob and its ad partners may collect device and advertising identifiers, general (non-precise) location, and app usage data to serve and measure ads. This happens through Google's SDK, not code we write — see the next section for what Google does with it.</p>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <caption>Data at a glance</caption>
+        <thead>
+          <tr><th>Data</th><th>Collected by</th><th>Purpose</th><th>Visibility</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Nickname (≤14 chars)</td><td>Office Chaos app</td><td>Leaderboard display</td><td>Public</td></tr>
+          <tr><td>Score &amp; timestamp</td><td>Office Chaos app</td><td>Leaderboard ranking</td><td>Public</td></tr>
+          <tr><td>Advertising ID</td><td>Google AdMob</td><td>Ad serving &amp; measurement</td><td>Google &amp; ad partners</td></tr>
+          <tr><td>Approximate location</td><td>Google AdMob</td><td>Ad relevance</td><td>Google &amp; ad partners</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>We don't collect your name, email address, phone number, precise location, photos, or contacts — the app never asks for any of them.</p>
+  </section>
+
+  <section class="clause" id="third-party">
+    <h2><span class="num">03</span>Third-party services</h2>
+    <p>Two Google services do the heavy lifting behind the scenes:</p>
+    <ul>
+      <li><strong>Google AdMob</strong> — serves the rewarded and interstitial ads described above. Google's own policies govern what it does with advertising data: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a> and <a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener">AdMob's data disclosure</a>.</li>
+      <li><strong>Google Firebase (Firestore)</strong> — stores leaderboard entries (nickname, score, timestamp). Covered under Firebase's <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">privacy and security policy</a>.</li>
+    </ul>
+    <p>The pill row below is simply a quick index of what each service is used for:</p>
+    <div class="pill-row">
+      <span class="pill">AdMob → rewarded ads</span>
+      <span class="pill">AdMob → interstitial ads</span>
+      <span class="pill">Firestore → leaderboard storage</span>
+    </div>
+  </section>
+
+  <section class="clause" id="use">
+    <h2><span class="num">04</span>How we use information</h2>
+    <p>Leaderboard data is used only to show rankings inside the app. Advertising data is used by Google and its partners to select and measure the ads shown to you. We don't sell data, and we don't use it for anything beyond running the game and keeping ads relevant.</p>
+  </section>
+
+  <section class="clause" id="choices">
+    <h2><span class="num">05</span>Your choices</h2>
+    <ul>
+      <li><strong>Skip the leaderboard.</strong> Saving a score is optional — you can close the "Your name" prompt and keep playing without ever submitting one.</li>
+      <li><strong>Pick a nickname carefully.</strong> Whatever you type is shown publicly, so avoid using your real name or anything identifying.</li>
+      <li><strong>Limit ad personalization.</strong> On Android, go to <em>Settings → Privacy → Ads</em> to reset your advertising ID or opt out of personalized ads.</li>
+      <li><strong>Skip ads entirely.</strong> Ads are optional — the "watch ad" continue is only offered after a game over, and declining it doesn't block normal play.</li>
+    </ul>
+  </section>
+
+  <section class="clause" id="retention">
+    <h2><span class="num">06</span>Data retention &amp; security</h2>
+    <p>Leaderboard entries are kept in Firestore to keep the leaderboard meaningful over time; there's currently no self-service way to delete an individual entry, so please don't submit anything you wouldn't want to stay public — contact us below if you'd like an entry removed. Firestore's access rules only allow new entries to be created, not edited or deleted, which also means a submitted score can't be altered later. As with any online service, no method of storage or transmission is perfectly secure, but we don't retain anything beyond the nickname/score/timestamp described above.</p>
+  </section>
+
+  <section class="clause" id="children">
+    <h2><span class="num">07</span>Children's privacy</h2>
+    <p>Office Chaos is intended for a general audience and is not directed at children under 13. We don't knowingly collect personal information from children under 13. If you believe a child has submitted information through the leaderboard, contact us below and we'll remove it.</p>
+  </section>
+
+  <section class="clause" id="changes">
+    <h2><span class="num">08</span>Changes to this policy</h2>
+    <p>If this policy changes, we'll update the effective date above. Continued use of the app after a change means you accept the updated policy.</p>
+  </section>
+
+  <section class="clause" id="contact">
+    <h2><span class="num">09</span>Contact</h2>
+    <p>Questions about this policy or a leaderboard entry? Reach the developer at <a href="mailto:mazenforwork@gmail.com">mazenforwork@gmail.com</a>.</p>
+  </section>
+
+  <footer>
+    <p>Office Chaos — a game about surviving your worst day at work.</p>
+  </footer>
+</div>
+</body>
+</html>
